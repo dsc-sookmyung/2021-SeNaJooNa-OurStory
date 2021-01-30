@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:together/Constansts.dart';
 import 'package:together/screens/view_diary_screen.dart';
 
 class DiaryScreen extends StatefulWidget {
@@ -11,8 +12,12 @@ class _DiaryScreenState extends State<DiaryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('모임명'),
+        backgroundColor: kPrimaryColor,
+      ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xff03dac6),
+        backgroundColor: kPLightColor,
         foregroundColor: Colors.black,
         onPressed: () {
           // Respond to button press
@@ -44,6 +49,13 @@ class DiaryCard extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
+              trailing: PopupMenuButton(
+                icon: Icon(Icons.more_vert),
+                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                  const PopupMenuItem(child: Text('수정하기')),
+                  const PopupMenuItem(child: Text('삭제하기')),
+                ],
+              ),
               leading: Icon(Icons.arrow_drop_down_circle),
               title: const Text('약속 명칭'),
               subtitle: Text(
@@ -73,25 +85,20 @@ class DiaryCard extends StatelessWidget {
               alignment: MainAxisAlignment.end,
               children: [
                 FlatButton(
-                  textColor: const Color(0xFF6200EE),
+                  textColor: kPDarkColor,
                   onPressed: () {
                     // Perform some action
                   },
                   child: const Text('댓글'),
                 ),
                 FlatButton(
-                  textColor: const Color(0xFF6200EE),
                   onPressed: () {
                     // Perform some action
                   },
-                  child: Icon(Icons.favorite),
-                ),
-                FlatButton(
-                  textColor: const Color(0xFF6200EE),
-                  onPressed: () {
-                    // Perform some action
-                  },
-                  child: Icon(Icons.share),
+                  child: Icon(
+                    Icons.favorite,
+                    color: Colors.grey,
+                  ),
                 ),
               ],
             ),

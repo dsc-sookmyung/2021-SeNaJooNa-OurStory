@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:together/Constansts.dart';
 import 'package:together/components/rounded_button.dart';
-import 'package:together/screens/login_screen.dart';
-import 'package:together/screens/registration_screen.dart';
+import 'package:together/screens/group_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
@@ -20,18 +20,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Image.asset('assets/welcome_image.jpg'),
             RoundedButton(
-              title: 'Log In',
-              colour: Colors.purpleAccent,
+              title: 'Google 계정 로그인',
+              colour: kPrimaryColor,
               onPressed: () {
-                Navigator.pushNamed(context, LoginScreen.id);
-              },
-            ),
-            RoundedButton(
-              title: 'Register',
-              colour: Colors.deepPurpleAccent,
-              onPressed: () {
-                Navigator.pushNamed(context, RegistrationScreen.id);
+                Navigator.pushNamed(context, GroupScreen.id);
               },
             ),
           ],

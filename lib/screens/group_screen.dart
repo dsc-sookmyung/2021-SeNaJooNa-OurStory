@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:together/Constansts.dart';
 import 'package:together/screens/add_group_screen.dart';
-import 'package:together/screens/group_page_screen.dart';
+import 'package:together/screens/diary_screen.dart';
+import 'file:///C:/Users/LEE/AndroidStudioProjects/together/lib/trash/group_page_screen.dart';
 
 class GroupScreen extends StatefulWidget {
   static const String id = 'group_screen';
@@ -10,11 +12,22 @@ class GroupScreen extends StatefulWidget {
 }
 
 class _GroupScreenState extends State<GroupScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _openDrawer() {
+    _scaffoldKey.currentState.openDrawer();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        backgroundColor: kPLightColor,
+        child: Icon(
+          Icons.add,
+          color: Colors.black,
+        ),
         onPressed: () {
           Navigator.push(
             context,
@@ -25,44 +38,26 @@ class _GroupScreenState extends State<GroupScreen> {
           );
         },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       appBar: AppBar(
-        backgroundColor: Color(0xFF6200EE),
-        bottom: PreferredSize(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text(
-              "모임 목록",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24.0,
-              ),
-            ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.list,
+            color: Colors.black,
           ),
-          preferredSize: Size(0.0, 80.0),
+          onPressed: _openDrawer,
         ),
-        // leading: IconButton(
-        //   icon: Icon(Icons.menu),
-        //   onPressed: () {},
-        // ),
-        // title: Text('모임 목록'),
+        backgroundColor: kPrimaryColor,
+        title: Text(
+          '모임 목록',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
-              Icons.add_alert,
-              color: Colors.white,
-            ),
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.share,
-              color: Colors.white,
-            ),
-          ),
-          IconButton(
-            icon: Icon(
               Icons.search,
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
         ],
@@ -70,9 +65,9 @@ class _GroupScreenState extends State<GroupScreen> {
       drawer: Navigation_Drawer(),
       body: Column(
         children: <Widget>[
-          SizedBox(
-            height: 30.0,
-          ),
+          // SizedBox(
+          //   height: 10.0,
+          // ),
           Expanded(
             child: ListView(
               children: <Widget>[
@@ -161,7 +156,7 @@ class GroupCard extends StatelessWidget {
           children: [
             ListTile(
               onTap: () {
-                Navigator.pushNamed(context, GroupPageScreen.id);
+                Navigator.pushNamed(context, DiaryScreen.id);
               },
               leading: Icon(Icons.photo),
               title: Text('Card title 1'),

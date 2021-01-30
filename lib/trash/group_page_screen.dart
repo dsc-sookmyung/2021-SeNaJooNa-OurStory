@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:together/screens/calendar_screen.dart';
-import 'package:together/screens/chat_screen.dart';
+import 'file:///C:/Users/LEE/AndroidStudioProjects/together/lib/trash/calendar_screen.dart';
+import 'file:///C:/Users/LEE/AndroidStudioProjects/together/lib/trash/chat_screen.dart';
 import 'package:together/screens/diary_screen.dart';
-import 'package:together/screens/map_screen.dart';
+import 'file:///C:/Users/LEE/AndroidStudioProjects/together/lib/trash/map_screen.dart';
 
 class GroupPageScreen extends StatefulWidget {
   static const String id = 'group_page_screen';
