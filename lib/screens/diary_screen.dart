@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:together/Constansts.dart';
+import 'package:together/Constants.dart';
 import 'package:together/screens/view_diary_screen.dart';
 
 class DiaryScreen extends StatefulWidget {

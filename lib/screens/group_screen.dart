@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:together/Constansts.dart';
+import 'package:together/Constants.dart';
 import 'package:together/screens/add_group_screen.dart';
 import 'package:together/screens/diary_screen.dart';
-import 'file:///C:/Users/LEE/AndroidStudioProjects/together/lib/trash/group_page_screen.dart';
+
 
 class GroupScreen extends StatefulWidget {
   static const String id = 'group_screen';

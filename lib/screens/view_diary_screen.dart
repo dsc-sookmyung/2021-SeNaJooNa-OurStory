@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:together/Constansts.dart';
+import 'package:together/Constants.dart';
 
 class ViewDiaryScreen extends StatefulWidget {
   static const String id = 'view_diary_screen';

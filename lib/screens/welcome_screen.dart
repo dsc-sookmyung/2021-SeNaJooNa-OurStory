@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:together/Constansts.dart';
+import 'package:together/Constants.dart';
 import 'package:together/components/rounded_button.dart';
 import 'package:together/screens/group_screen.dart';
 
