@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:together/models/Group.dart';
+import 'package:together/models/User.dart';
+import 'package:provider/provider.dart';
 
-class AddGroupScreen extends StatelessWidget {
+class AddGroupScreen extends StatefulWidget {
+  @override
+  _AddGroupScreenState createState() => _AddGroupScreenState();
+}
+
+class _AddGroupScreenState extends State<AddGroupScreen> {
+  String groupName;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,7 +20,12 @@ class AddGroupScreen extends StatelessWidget {
         actions: [
           FlatButton(
             textColor: Colors.white,
-            onPressed: () {},
+            onPressed: () {
+              //ff
+              Provider.of<Group>(context, listen: false)
+                  .addGroup(name: groupName, users: null);
+              Navigator.pop(context);
+            },
             child: Text("SAVE"),
             shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
           ),
@@ -23,7 +38,9 @@ class AddGroupScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             TextField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                groupName = value;
+              },
               decoration: InputDecoration(
                 hintText: '모임 이름',
                 contentPadding: EdgeInsets.symmetric(

@@ -31,7 +31,7 @@ class _GroupScreenState extends State<GroupScreen> {
     //   })
     // });
     return Scaffold(
-      key: _scaffoldKey, 
+      key: _scaffoldKey,
       floatingActionButton: FloatingActionButton(
         backgroundColor: kPLightColor,
         child: Icon(
@@ -42,7 +42,7 @@ class _GroupScreenState extends State<GroupScreen> {
           Navigator.push(
             context,
             MaterialPageRoute<void>(
-              builder: (BuildContext context) => AddGroupScreen(),
+              builder: (context) => AddGroupScreen(),
               fullscreenDialog: true,
             ),
           );
@@ -79,15 +79,14 @@ class _GroupScreenState extends State<GroupScreen> {
           //   height: 10.0,
           // ),
           Expanded(
-            // child: ListView(
-            //   children: <Widget>[
-            //     GroupCard(),
-            //     GroupCard(),
-            //     GroupCard(),
-            //   ],
-            // ),
-            child:projectWidget()
-          ),
+              // child: ListView(
+              //   children: <Widget>[
+              //     GroupCard(),
+              //     GroupCard(),
+              //     GroupCard(),
+              //   ],
+              // ),
+              child: projectWidget()),
           // FloatingActionButton(
           //   backgroundColor: Colors.lightBlueAccent,
           //   onPressed: () {
@@ -106,14 +105,15 @@ class _GroupScreenState extends State<GroupScreen> {
     return FutureBuilder(
       builder: (context, groupSnap) {
         if (groupSnap.connectionState == ConnectionState.none &&
-            groupSnap.hasData == null || groupSnap.hasData == false) {
+                groupSnap.hasData == null ||
+            groupSnap.hasData == false) {
           //print('project snapshot data is: ${projectSnap.data}');
           return Container();
         }
         return ListView.builder(
           itemCount: groupSnap.data.length,
           itemBuilder: (context, index) {
-            Map<String,dynamic> group = groupSnap.data[index];
+            Map<String, dynamic> group = groupSnap.data[index];
             return Column(
               children: <Widget>[
                 GroupCard(group["id"], group["name"], group["users"])
@@ -188,24 +188,22 @@ class GroupCard extends StatelessWidget {
   String name;
   FutureBuilder users;
 
-  GroupCard(id, name, users){
+  GroupCard(id, name, users) {
     this.id = id;
     this.name = name;
     this.users = FutureBuilder(
-      builder: (context, userSnap) {
-        if (userSnap.connectionState == ConnectionState.none &&
-            userSnap.hasData == null) {
-          //print('project snapshot data is: ${projectSnap.data}');
-          return Text("");
-        }
-        else if (userSnap.hasData) {
-          return Text(userSnap.data.join(','));
-        } else {
-          return Text("");
-        }
-      },
-      future: users
-    );
+        builder: (context, userSnap) {
+          if (userSnap.connectionState == ConnectionState.none &&
+              userSnap.hasData == null) {
+            //print('project snapshot data is: ${projectSnap.data}');
+            return Text("");
+          } else if (userSnap.hasData) {
+            return Text(userSnap.data.join(','));
+          } else {
+            return Text("");
+          }
+        },
+        future: users);
   }
   @override
   Widget build(BuildContext context) {
