@@ -7,12 +7,14 @@ import 'package:together/screens/login_screen.dart';
 
 import 'package:provider/provider.dart'; 
 import 'models/User.dart';
+import 'models/Group.dart';
 // void main() => runApp(MyApp());
 void main(){
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => User()),
+        ChangeNotifierProvider(create: (_) => Group()),
       ],
       child: MyApp(),
     )

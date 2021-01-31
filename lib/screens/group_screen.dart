@@ -4,8 +4,9 @@ import 'package:together/Constants.dart';
 import 'package:together/screens/add_group_screen.dart';
 import 'package:together/screens/diary_screen.dart';
 
-import 'package:provider/provider.dart'; 
+import 'package:provider/provider.dart';
 import '../models/User.dart';
+import '../models/Group.dart';
 
 class GroupScreen extends StatefulWidget {
   static const String id = 'group_screen';
@@ -22,10 +23,15 @@ class _GroupScreenState extends State<GroupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String email = Provider.of<User>(context).getEmail();
-    print(email);
+    // String email = Provider.of<User>(context).getEmail();
+    // Future<List<Map<String, dynamic>>> groups = Provider.of<Group>(context).getGroupsList(email);
+    // groups.then((value) => {
+    //   value.forEach((element) {
+    //     print(element);
+    //   })
+    // });
     return Scaffold(
-      key: _scaffoldKey,
+      key: _scaffoldKey, 
       floatingActionButton: FloatingActionButton(
         backgroundColor: kPLightColor,
         child: Icon(
@@ -73,13 +79,14 @@ class _GroupScreenState extends State<GroupScreen> {
           //   height: 10.0,
           // ),
           Expanded(
-            child: ListView(
-              children: <Widget>[
-                GroupCard(),
-                GroupCard(),
-                GroupCard(),
-              ],
-            ),
+            // child: ListView(
+            //   children: <Widget>[
+            //     GroupCard(),
+            //     GroupCard(),
+            //     GroupCard(),
+            //   ],
+            // ),
+            child:projectWidget()
           ),
           // FloatingActionButton(
           //   backgroundColor: Colors.lightBlueAccent,
@@ -90,6 +97,31 @@ class _GroupScreenState extends State<GroupScreen> {
           // ),
         ],
       ),
+    );
+  }
+
+  Widget projectWidget() {
+    String email = Provider.of<User>(context).getEmail();
+    return FutureBuilder(
+      builder: (context, groupSnap) {
+        if (groupSnap.connectionState == ConnectionState.none &&
+            groupSnap.hasData == null) {
+          //print('project snapshot data is: ${projectSnap.data}');
+          return Container();
+        }
+        return ListView.builder(
+          itemCount: groupSnap.data.length,
+          itemBuilder: (context, index) {
+            Map<String,dynamic> group = groupSnap.data[index];
+            return Column(
+              children: <Widget>[
+                GroupCard(group["id"], group["name"], group["users"])
+              ],
+            );
+          },
+        );
+      },
+      future: Provider.of<Group>(context).getGroupsList(email),
     );
   }
 }
@@ -151,6 +183,25 @@ class Navigation_Drawer extends StatelessWidget {
 }
 
 class GroupCard extends StatelessWidget {
+  String id;
+  String name;
+  FutureBuilder users;
+
+  GroupCard(id, name, users){
+    this.id = id;
+    this.name = name;
+    this.users = FutureBuilder(
+      builder: (context, userSnap) {
+        if (userSnap.connectionState == ConnectionState.none &&
+            userSnap.hasData == null) {
+          //print('project snapshot data is: ${projectSnap.data}');
+          return Text("");
+        }
+        return Text(userSnap.data.join(','));
+      },
+      future: users
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -163,8 +214,8 @@ class GroupCard extends StatelessWidget {
                 Navigator.pushNamed(context, DiaryScreen.id);
               },
               leading: Icon(Icons.photo),
-              title: Text('Card title 1'),
-              subtitle: Text('name, name, name'),
+              title: Text(this.name),
+              subtitle: this.users,
             ),
           ],
         ),
