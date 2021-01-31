@@ -197,7 +197,11 @@ class GroupCard extends StatelessWidget {
           //print('project snapshot data is: ${projectSnap.data}');
           return Text("");
         }
-        return Text(userSnap.data.join(','));
+        else if (userSnap.hasData) {
+          return Text(userSnap.data.join(','));
+        } else {
+          return Text("");
+        }
       },
       future: users
     );
