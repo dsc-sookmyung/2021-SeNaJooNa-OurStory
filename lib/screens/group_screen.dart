@@ -102,10 +102,11 @@ class _GroupScreenState extends State<GroupScreen> {
 
   Widget projectWidget() {
     String email = Provider.of<User>(context).getEmail();
+    print(email);
     return FutureBuilder(
       builder: (context, groupSnap) {
         if (groupSnap.connectionState == ConnectionState.none &&
-            groupSnap.hasData == null) {
+            groupSnap.hasData == null || groupSnap.hasData == false) {
           //print('project snapshot data is: ${projectSnap.data}');
           return Container();
         }
