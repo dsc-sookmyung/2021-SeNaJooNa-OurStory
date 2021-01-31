@@ -7,15 +7,19 @@ class User extends ChangeNotifier {
 
   void setUser(user){
     this._user = user;
-    // this._firestore.collection('User').doc(user.email).get().catchError((error) =>
-    //   this._firestore.collection('User').add(
-    //     {
-    //       '$user.email':{
-    //         'name': user.name
-    //       }
-    //     }
-    //   )
-    // );
+    this._firestore.collection('User').doc(user["email"]).get()
+    .then((value) => {
+      if(!value.exists){
+        this._firestore.collection('User').doc(user["email"]).set(
+          {
+            'name': user["name"]
+          }
+        )
+      }
+    })
+    .catchError((error) =>
+      print("get user error!")
+    );
   }
 
   Map<String, dynamic> getUser(){
