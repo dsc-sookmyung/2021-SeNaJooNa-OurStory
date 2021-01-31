@@ -37,10 +37,12 @@ class Group extends ChangeNotifier {
 
   Future<List<String>> getUsers(users) async{
     List<String> userInfo = List<String>();
-    for(var i=0;i<users.length;i++){
-      await this._firestore.collection('User').doc(users[i]).get().then((value)=>{
-          userInfo.add(value["name"])
-      });
+    if(users){
+      for(var i=0;i<users.length;i++){
+        await this._firestore.collection('User').doc(users[i]).get().then((value)=>{
+            userInfo.add(value["name"])
+        });
+      }
     }
     return userInfo;
   }
