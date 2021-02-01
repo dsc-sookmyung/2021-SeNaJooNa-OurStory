@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:together/Constants.dart';
@@ -79,14 +80,15 @@ class _GroupScreenState extends State<GroupScreen> {
           //   height: 10.0,
           // ),
           Expanded(
-              // child: ListView(
-              //   children: <Widget>[
-              //     GroupCard(),
-              //     GroupCard(),
-              //     GroupCard(),
-              //   ],
-              // ),
-              child: projectWidget()),
+            // child: ListView(
+            //   children: <Widget>[
+            //     GroupCard(),
+            //     GroupCard(),
+            //     GroupCard(),
+            //   ],
+            // ),
+            child: projectWidget(),
+          ),
           // FloatingActionButton(
           //   backgroundColor: Colors.lightBlueAccent,
           //   onPressed: () {

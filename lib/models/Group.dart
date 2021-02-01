@@ -9,9 +9,11 @@ class Group extends ChangeNotifier {
   void setGroup(groupId) {}
 
   void addGroup({String name, List<String> users, String email}) {
+    users.add(email);
+
     _firestore.collection('Room').add({
       'name': name,
-      'users': [email]
+      'users': users,
     });
     notifyListeners();
   }
