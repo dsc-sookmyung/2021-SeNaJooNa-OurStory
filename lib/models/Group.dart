@@ -8,11 +8,12 @@ class Group extends ChangeNotifier {
 
   void setGroup(groupId) {}
 
-  void addGroup({String name, List<String> users}) {
+  void addGroup({String name, List<String> users, String email}) {
     _firestore.collection('Room').add({
       'name': name,
-      'users': ['senajoona@gmail.com']
+      'users': [email]
     });
+    notifyListeners();
   }
 
   Future<List<Map<String, dynamic>>> getGroupsList(userId) async {

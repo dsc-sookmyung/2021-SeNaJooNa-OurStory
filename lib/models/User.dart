@@ -20,6 +20,7 @@ class User extends ChangeNotifier {
     .catchError((error) =>
       print("get user error!")
     );
+    notifyListeners();
   }
 
   Map<String, dynamic> getUser(){

@@ -23,7 +23,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
             onPressed: () {
               //ff
               Provider.of<Group>(context, listen: false)
-                  .addGroup(name: groupName, users: null);
+                  .addGroup(name: groupName, users: null, email:Provider.of<User>(context, listen: false).getEmail());
               Navigator.pop(context);
             },
             child: Text("SAVE"),
