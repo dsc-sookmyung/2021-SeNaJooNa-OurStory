@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:together/Constants.dart';
+import 'package:together/models/sign_in.dart';
 import 'package:together/screens/add_group_screen.dart';
 import 'package:together/screens/diary_screen.dart';
 
 import 'package:provider/provider.dart';
+import 'package:together/screens/welcome_screen.dart';
 import '../models/User.dart';
 import '../models/Group.dart';
 
@@ -175,6 +177,14 @@ class Navigation_Drawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Settings'),
+          ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('Logout'),
+            onTap: () {
+              signOutGoogle();
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => WelcomeScreen()), (route)=> false);
+            },
           ),
           Divider(
             height: 1,
