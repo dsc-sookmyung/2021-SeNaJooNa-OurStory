@@ -111,9 +111,11 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
               ),
               FlatButton(
                 onPressed: () {
-                  setState(() {
-                    userList.add(user);
-                  });
+                  if(!userList.contains(user) && user != Provider.of<User>(context, listen: false).getEmail()){
+                    setState(() {
+                      userList.insert(0, user);
+                    });
+                  }
 
                   _userController.clear();
                 },
