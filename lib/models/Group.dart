@@ -13,8 +13,17 @@ class Group extends ChangeNotifier {
 
     _firestore.collection('Room').add({
       'name': name,
+      'time': Timestamp.now(),
       'users': users,
     });
+    notifyListeners();
+  }
+
+  void removeGroup({dynamic id}) {
+    print("id는22");
+    print(id);
+    _firestore.collection('Room').doc(id).delete();
+
     notifyListeners();
   }
 
@@ -24,6 +33,7 @@ class Group extends ChangeNotifier {
         ._firestore
         .collection('Room')
         .where('users', arrayContains: userId)
+        .orderBy('time')
         .get()
         .then((QuerySnapshot querySnapshot) => {
               querySnapshot.docs.forEach((doc) async {

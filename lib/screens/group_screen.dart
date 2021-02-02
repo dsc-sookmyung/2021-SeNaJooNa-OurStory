@@ -104,6 +104,7 @@ class _GroupScreenState extends State<GroupScreen> {
   Widget projectWidget() {
     String email = Provider.of<User>(context).getEmail();
     print(email);
+
     return FutureBuilder(
       builder: (context, groupSnap) {
         if (groupSnap.connectionState == ConnectionState.none &&
@@ -118,7 +119,17 @@ class _GroupScreenState extends State<GroupScreen> {
             Map<String, dynamic> group = groupSnap.data[index];
             return Column(
               children: <Widget>[
-                GroupCard(group["id"], group["name"], group["users"])
+                GroupCard(
+                  group["id"],
+                  group["name"],
+                  group["users"],
+                  (value) {
+                    if (value == 1)
+                      Provider.of<Group>(context, listen: false)
+                          .removeGroup(id: group["id"]);
+                    else if (value == 0) null;
+                  },
+                )
               ],
             );
           },
@@ -188,11 +199,13 @@ class Navigation_Drawer extends StatelessWidget {
 class GroupCard extends StatelessWidget {
   String id;
   String name;
+  Function removeCard;
   FutureBuilder users;
 
-  GroupCard(id, name, users) {
+  GroupCard(id, name, users, removeCard) {
     this.id = id;
     this.name = name;
+    this.removeCard = removeCard;
     this.users = FutureBuilder(
         builder: (context, userSnap) {
           if (userSnap.connectionState == ConnectionState.none &&
@@ -215,6 +228,20 @@ class GroupCard extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
+              trailing: PopupMenuButton(
+                onSelected: removeCard,
+                icon: Icon(Icons.more_vert),
+                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                  const PopupMenuItem(
+                    child: Text('탈퇴하기'),
+                    value: 0,
+                  ),
+                  const PopupMenuItem(
+                    child: Text('삭제하기'),
+                    value: 1,
+                  ),
+                ],
+              ),
               onTap: () {
                 Navigator.pushNamed(context, DiaryScreen.id);
               },
