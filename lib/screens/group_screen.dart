@@ -126,10 +126,15 @@ class _GroupScreenState extends State<GroupScreen> {
                   group["name"],
                   group["users"],
                   (value) {
-                    if (value == 1)
+                    if (value == 1) {
                       Provider.of<Group>(context, listen: false)
                           .removeGroup(id: group["id"]);
-                    else if (value == 0) null;
+                    } else if (value == 0) {
+                      Provider.of<Group>(context, listen: false).leaveGroup(
+                        groupID: group["id"],
+                        email: email,
+                      );
+                    }
                   },
                 )
               ],
@@ -183,7 +188,11 @@ class Navigation_Drawer extends StatelessWidget {
             title: Text('Logout'),
             onTap: () {
               signOutGoogle();
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => WelcomeScreen()), (route)=> false);
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => WelcomeScreen()),
+                  (route) => false);
             },
           ),
           Divider(

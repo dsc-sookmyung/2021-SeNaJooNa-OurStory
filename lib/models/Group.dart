@@ -19,12 +19,16 @@ class Group extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeGroup({dynamic id}) {
-    print("id는22");
-    print(id);
-    _firestore.collection('Room').doc(id).delete();
-
+  Future<void> removeGroup({dynamic id}) {
     notifyListeners();
+    return _firestore.collection('Room').doc(id).delete();
+  }
+
+  Future<void> leaveGroup({dynamic groupID, String email}) {
+    notifyListeners();
+    return _firestore.collection('Room').doc(groupID).update({
+      'users': FieldValue.arrayRemove([email])
+    });
   }
 
   Future<List<Map<String, dynamic>>> getGroupsList(userId) async {
