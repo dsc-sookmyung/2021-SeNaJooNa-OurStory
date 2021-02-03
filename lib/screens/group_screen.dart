@@ -262,7 +262,8 @@ class GroupCard extends StatelessWidget {
                 ],
               ),
               onTap: () {
-                Navigator.pushNamed(context, DiaryScreen.id);
+                Navigator.pushNamed(context, DiaryScreen.id,
+                    arguments: RoomClass(this.id, this.name));
               },
               leading: Icon(Icons.photo),
               title: Text(this.name),
