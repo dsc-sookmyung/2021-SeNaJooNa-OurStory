@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:together/Constants.dart';
 import 'package:together/models/sign_in.dart';
 import 'package:together/screens/add_group_screen.dart';
+import 'package:together/screens/change_group_screen.dart';
 import 'package:together/screens/diary_screen.dart';
 
 import 'package:provider/provider.dart';
@@ -111,7 +112,16 @@ class _GroupScreenState extends State<GroupScreen> {
                         email: email,
                       );
                     } else {
-                      changeName(group);
+                      print(group);
+                      Provider.of<Group>(context, listen: false).setGroup(group);
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (context) => ChangeGroupScreen(),
+                          fullscreenDialog: true,
+                        ),
+                      );
                     }
                   },
                 )
@@ -121,66 +131,6 @@ class _GroupScreenState extends State<GroupScreen> {
         );
       },
       future: Provider.of<Group>(context).getGroupsList(email),
-    );
-  }
-  Future<Widget> changeName(group){
-    TextEditingController _nameController = TextEditingController();
-    String newGroupName;
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("모임명 변경"),
-          content: TextField(
-          controller: _nameController,
-          onChanged: (value) {
-            newGroupName = value;
-          },
-          decoration: InputDecoration(
-            hintText: '모임 이름',
-            contentPadding: EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 20.0,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(20.0),
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 1.0),
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Colors.deepPurpleAccent[100], width: 2.0),
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            ),
-          ),
-        ),
-          actions: <Widget>[ 
-            new FlatButton(
-              child: new Text("OK"),
-              onPressed: () {
-                Provider.of<Group>(context, listen: false).renameGroup(
-                  id: group["id"],
-                  name: newGroupName
-                );
-                _nameController.clear();
-                Navigator.pop(context);
-              },
-            ),
-            new FlatButton(
-              child: new Text("Cancel"),
-              onPressed: () {
-                _nameController.clear();
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }
@@ -300,7 +250,7 @@ class GroupCard extends StatelessWidget {
                     value: 1,
                   ),
                   const PopupMenuItem(
-                    child: Text('모임명 변경'),
+                    child: Text('모임 설정'),
                     value: 2,
                   ),
                 ],
