@@ -26,13 +26,6 @@ class _GroupScreenState extends State<GroupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // String email = Provider.of<User>(context).getEmail();
-    // Future<List<Map<String, dynamic>>> groups = Provider.of<Group>(context).getGroupsList(email);
-    // groups.then((value) => {
-    //   value.forEach((element) {
-    //     print(element);
-    //   })
-    // });
     return Scaffold(
       key: _scaffoldKey,
       floatingActionButton: FloatingActionButton(
@@ -78,26 +71,9 @@ class _GroupScreenState extends State<GroupScreen> {
       drawer: Navigation_Drawer(),
       body: Column(
         children: <Widget>[
-          // SizedBox(
-          //   height: 10.0,
-          // ),
           Expanded(
-            // child: ListView(
-            //   children: <Widget>[
-            //     GroupCard(),
-            //     GroupCard(),
-            //     GroupCard(),
-            //   ],
-            // ),
             child: projectWidget(),
           ),
-          // FloatingActionButton(
-          //   backgroundColor: Colors.lightBlueAccent,
-          //   onPressed: () {
-          //     // Respond to button press
-          //   },
-          //   child: Icon(Icons.add),
-          // ),
         ],
       ),
     );

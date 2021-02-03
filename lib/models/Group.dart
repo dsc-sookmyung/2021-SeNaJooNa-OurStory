@@ -31,6 +31,13 @@ class Group extends ChangeNotifier {
     });
   }
 
+  Future<void> renameGroup({dynamic id, String name}) {
+    notifyListeners();
+    return _firestore.collection('Room').doc(id).update({
+      'name': name,
+    });
+  }
+
   Future<List<Map<String, dynamic>>> getGroupsList(userId) async {
     List<Map<String, dynamic>> _groups = List<Map<String, dynamic>>();
     await this

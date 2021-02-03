@@ -9,11 +9,10 @@ class AddGroupScreen extends StatefulWidget {
   _AddGroupScreenState createState() => _AddGroupScreenState();
 }
 
-List<String> userList = [];
-
 class _AddGroupScreenState extends State<AddGroupScreen> {
   String groupName;
   String user;
+  List<String> userList = [];
   TextEditingController _nameController = TextEditingController();
   TextEditingController _userController = TextEditingController();
   @override
@@ -118,6 +117,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                       userList.insert(0, user);
                     });
                   }
+                  if (user == null) {}
 
                   _userController.clear();
                 },
@@ -126,7 +126,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
               Expanded(
                 child: SizedBox(
                   height: 200.0,
-                  child: DeleteChips(),
+                  child: userListWidget(),
                 ),
               )
             ],
@@ -135,45 +135,45 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
       ),
     );
   }
-}
 
-class DeleteChips extends StatefulWidget {
-  @override
-  UsersList createState() => UsersList();
-}
-
-class UsersList extends State<DeleteChips> {
-  @override
-  Widget build(BuildContext context) {
+  Widget userListWidget() {
     return ListView.builder(
       itemBuilder: (context, index) {
-        return buildChip(
-          index: index,
-          userTitle: userList[index],
-        );
+        return userChip(
+            userTitle: userList[index],
+            onDeleted: () {
+              setState(() {
+                userList.remove(userList[index]);
+              });
+            });
       },
       itemCount: userList.length,
     );
   }
+}
 
-  Widget buildChip({int index, String userTitle}) {
+class userChip extends StatelessWidget {
+  String userTitle;
+  Function onDeleted;
+  userChip({userTitle, onDeleted}) {
+    this.userTitle = userTitle;
+    this.onDeleted = onDeleted;
+  }
+  Widget build(BuildContext context) {
     return Chip(
-        label: Text(
-          userTitle,
-          style: TextStyle(color: Colors.black),
+      label: Text(
+        userTitle,
+        style: TextStyle(color: Colors.black),
+      ),
+      avatar: CircleAvatar(
+        child: Text(
+          userTitle[0].toUpperCase(),
         ),
-        avatar: CircleAvatar(
-          child: Text(
-            userTitle[0].toUpperCase(),
-          ),
-          backgroundColor: Colors.white,
-        ),
-        padding: EdgeInsets.all(5),
-        backgroundColor: Colors.deepPurpleAccent[100],
-        onDeleted: () {
-          setState(() {
-            userList.remove(userTitle);
-          });
-        });
+        backgroundColor: Colors.white,
+      ),
+      padding: EdgeInsets.all(5),
+      backgroundColor: Colors.deepPurpleAccent[100],
+      onDeleted: onDeleted,
+    );
   }
 }
