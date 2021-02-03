@@ -19,12 +19,20 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
         backgroundColor: kPrimaryColor,
-        title: Text('모임 만들기'),
+        title: Text(
+          '모임 만들기',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
         actions: [
           FlatButton(
-            textColor: Colors.white,
             onPressed: () {
+              if (groupName == null) return;
               //ff
               Provider.of<Group>(context, listen: false).addGroup(
                   name: groupName,
@@ -55,27 +63,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                 onChanged: (value) {
                   groupName = value;
                 },
-                decoration: InputDecoration(
-                  hintText: '모임 이름',
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 20.0,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20.0),
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.deepPurpleAccent[100], width: 2.0),
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                ),
+                decoration: kTextFieldDecoration.copyWith(hintText: '모임 이름'),
               ),
               SizedBox(
                 height: 48.0,
@@ -85,30 +73,13 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                   user = value;
                 },
                 controller: _userController,
-                decoration: InputDecoration(
-                  hintText: '모임원 추가',
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 20.0,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20.0),
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.deepPurpleAccent[100], width: 2.0),
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                ),
+                decoration: kTextFieldDecoration.copyWith(hintText: '모임원 추가'),
               ),
               FlatButton(
                 onPressed: () {
+                  if (user == null) {
+                    return;
+                  }
                   if (!userList.contains(user) &&
                       user !=
                           Provider.of<User>(context, listen: false)
@@ -117,7 +88,6 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                       userList.insert(0, user);
                     });
                   }
-                  if (user == null) {}
 
                   _userController.clear();
                 },
@@ -163,7 +133,7 @@ class userChip extends StatelessWidget {
     return Chip(
       label: Text(
         userTitle,
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(color: Colors.white),
       ),
       avatar: CircleAvatar(
         child: Text(
@@ -172,7 +142,7 @@ class userChip extends StatelessWidget {
         backgroundColor: Colors.white,
       ),
       padding: EdgeInsets.all(5),
-      backgroundColor: Colors.deepPurpleAccent[100],
+      backgroundColor: kPDarkColor,
       onDeleted: onDeleted,
     );
   }

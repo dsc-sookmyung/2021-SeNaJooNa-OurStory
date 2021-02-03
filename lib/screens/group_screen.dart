@@ -68,7 +68,7 @@ class _GroupScreenState extends State<GroupScreen> {
           ),
         ],
       ),
-      drawer: Navigation_Drawer(),
+      drawer: Navigation_Drawer(userName: Provider.of<User>(context).getName()),
       body: Column(
         children: <Widget>[
           Expanded(
@@ -186,9 +186,11 @@ class _GroupScreenState extends State<GroupScreen> {
 }
 
 class Navigation_Drawer extends StatelessWidget {
-  const Navigation_Drawer({
-    Key key,
-  }) : super(key: key);
+  String userName;
+
+  Navigation_Drawer({@required userName}) {
+    this.userName = userName;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +201,7 @@ class Navigation_Drawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             child: Text(
-              'Drawer Header',
+              userName,
               style: TextStyle(
                 fontSize: 24,
               ),
