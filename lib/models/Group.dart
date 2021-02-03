@@ -9,11 +9,26 @@ class Group extends ChangeNotifier {
   void setGroup(groupId) {}
 
   void addGroup({String name, List<String> users, String email}) {
+    users.insert(0, email);
+
     _firestore.collection('Room').add({
       'name': name,
-      'users': [email]
+      'time': Timestamp.now(),
+      'users': users,
     });
     notifyListeners();
+  }
+
+  Future<void> removeGroup({dynamic id}) {
+    notifyListeners();
+    return _firestore.collection('Room').doc(id).delete();
+  }
+
+  Future<void> leaveGroup({dynamic groupID, String email}) {
+    notifyListeners();
+    return _firestore.collection('Room').doc(groupID).update({
+      'users': FieldValue.arrayRemove([email])
+    });
   }
 
   Future<List<Map<String, dynamic>>> getGroupsList(userId) async {
@@ -22,6 +37,7 @@ class Group extends ChangeNotifier {
         ._firestore
         .collection('Room')
         .where('users', arrayContains: userId)
+        .orderBy('time')
         .get()
         .then((QuerySnapshot querySnapshot) => {
               querySnapshot.docs.forEach((doc) async {
