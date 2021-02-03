@@ -9,10 +9,11 @@ class AddGroupScreen extends StatefulWidget {
   _AddGroupScreenState createState() => _AddGroupScreenState();
 }
 
+List<String> userList = [];
+
 class _AddGroupScreenState extends State<AddGroupScreen> {
   String groupName;
   String user;
-  List<String> userList = [];
   TextEditingController _nameController = TextEditingController();
   TextEditingController _userController = TextEditingController();
   @override
@@ -67,13 +68,12 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.purpleAccent[100], width: 1.0),
+                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.purpleAccent[100], width: 2.0),
+                    borderSide: BorderSide(
+                        color: Colors.deepPurpleAccent[100], width: 2.0),
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
                 ),
@@ -98,20 +98,22 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.purpleAccent[100], width: 1.0),
+                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.purpleAccent[100], width: 2.0),
+                    borderSide: BorderSide(
+                        color: Colors.deepPurpleAccent[100], width: 2.0),
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
                 ),
               ),
               FlatButton(
                 onPressed: () {
-                  if(!userList.contains(user) && user != Provider.of<User>(context, listen: false).getEmail()){
+                  if (!userList.contains(user) &&
+                      user !=
+                          Provider.of<User>(context, listen: false)
+                              .getEmail()) {
                     setState(() {
                       userList.insert(0, user);
                     });
@@ -124,7 +126,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
               Expanded(
                 child: SizedBox(
                   height: 200.0,
-                  child: UsersList(userList),
+                  child: DeleteChips(),
                 ),
               )
             ],
@@ -135,28 +137,43 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   }
 }
 
-class UsersList extends StatelessWidget {
-  UsersList(this.users);
-  List<String> users;
+class DeleteChips extends StatefulWidget {
+  @override
+  UsersList createState() => UsersList();
+}
+
+class UsersList extends State<DeleteChips> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemBuilder: (context, index) {
-        return UserTile(userTitle: users[index]);
+        return buildChip(
+          index: index,
+          userTitle: userList[index],
+        );
       },
-      itemCount: users.length,
+      itemCount: userList.length,
     );
   }
-}
 
-class UserTile extends StatelessWidget {
-  UserTile({this.userTitle});
-  String userTitle;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(userTitle),
-    );
+  Widget buildChip({int index, String userTitle}) {
+    return Chip(
+        label: Text(
+          userTitle,
+          style: TextStyle(color: Colors.black),
+        ),
+        avatar: CircleAvatar(
+          child: Text(
+            userTitle[0].toUpperCase(),
+          ),
+          backgroundColor: Colors.white,
+        ),
+        padding: EdgeInsets.all(5),
+        backgroundColor: Colors.deepPurpleAccent[100],
+        onDeleted: () {
+          setState(() {
+            userList.remove(userTitle);
+          });
+        });
   }
 }
