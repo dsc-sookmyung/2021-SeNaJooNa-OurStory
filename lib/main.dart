@@ -8,6 +8,7 @@ import 'package:together/screens/login_screen.dart';
 import 'package:provider/provider.dart'; 
 import 'models/User.dart';
 import 'models/Group.dart';
+import 'models/Diary.dart';
 // void main() => runApp(MyApp());
 void main(){
   runApp(
@@ -15,6 +16,7 @@ void main(){
       providers: [
         ChangeNotifierProvider(create: (_) => User()),
         ChangeNotifierProvider(create: (_) => Group()),
+        ChangeNotifierProvider(create: (_) => Diary()),
       ],
       child: MyApp(),
     )
