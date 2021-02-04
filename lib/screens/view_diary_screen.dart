@@ -5,24 +5,6 @@ import 'package:together/Constants.dart';
 import 'package:together/screens/diary_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class ViewDiaryScreen extends StatefulWidget {
-  static const String id = 'view_diary_screen';
-  @override
-  _ViewDiaryScreenState createState() => _ViewDiaryScreenState();
-}
-
-// class ArgumentDiary {
-//   final String id;
-//   final String title;
-//   final String content;
-//   final String location;
-//   final Timestamp date;
-//   final List<dynamic> images;
-//   final List<dynamic> imagesPath;
-//   ArgumentDiary(this.id, this.title, this.content, this.location, this.date,
-//       this.images, this.imagesPath);
-// }
-
 class ArgumentDiary {
   String id;
   String title;
@@ -42,8 +24,6 @@ class ArgumentDiary {
   }
 }
 
-List<String> imgListst;
-
 class ArgumentRoomAndDiary {
   ArgumentRoom argumentRoom;
   ArgumentDiary argumentDiary;
@@ -60,12 +40,20 @@ class ArgumentRoomAndDiary {
   }
 }
 
+List<String> imgList;
+
+class ViewDiaryScreen extends StatefulWidget {
+  static const String id = 'view_diary_screen';
+  @override
+  _ViewDiaryScreenState createState() => _ViewDiaryScreenState();
+}
+
 class _ViewDiaryScreenState extends State<ViewDiaryScreen> {
   @override
   Widget build(BuildContext context) {
     final ArgumentRoomAndDiary argumentRoomAndDiary =
         ModalRoute.of(context).settings.arguments;
-    imgListst = argumentRoomAndDiary.argumentDiary.imagesPath;
+    imgList = argumentRoomAndDiary.argumentDiary.imagesPath;
     return Scaffold(
       appBar: AppBar(
         title: Text(argumentRoomAndDiary.argumentDiary.title),
@@ -96,121 +84,12 @@ class _ViewDiaryScreenState extends State<ViewDiaryScreen> {
                   style: TextStyle(color: Colors.black.withOpacity(0.6)),
                 ),
                 CarouselWithIndicator(),
-                // imageSliderWidget(
-                //     argumentRoomAndDiary.argumentDiary.imagesPath),
                 Text(argumentRoomAndDiary.argumentDiary.content),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-
-  // final List<Widget> imageSliders = imgListst.map((item) => Container(
-  //       child: Container(
-  //         margin: EdgeInsets.all(5.0),
-  //         child: ClipRRect(
-  //           borderRadius: BorderRadius.all(Radius.circular(5.0)),
-  //           child: Stack(
-  //             children: <Widget>[
-  //               Image.network(item, fit: BoxFit.cover, width: 1000.0),
-  //               Positioned(
-  //                 bottom: 0.0,
-  //                 left: 0.0,
-  //                 right: 0.0,
-  //                 child: Container(
-  //                   decoration: BoxDecoration(
-  //                     gradient: LinearGradient(
-  //                       // colors: [
-  //                       //   Color.fromARGB(200, 0, 0, 0),
-  //                       //   Color.fromARGB(0, 0, 0, 0)
-  //                       // ],
-  //                       begin: Alignment.bottomCenter,
-  //                       end: Alignment.topCenter,
-  //                     ),
-  //                   ),
-  //                   padding:
-  //                       EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-  //                   child: Text(
-  //                     'No. ${imgListst.indexOf(item)} image',
-  //                     style: TextStyle(
-  //                       color: Colors.white,
-  //                       fontSize: 20.0,
-  //                       fontWeight: FontWeight.bold,
-  //                     ),
-  //                   ),
-  //                 ),
-  //               )
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //     ));
-
-  Widget imageSliderWidget(imgList) {
-    int _current = 0;
-    return Column(
-      children: [
-        CarouselSlider(
-          options: CarouselOptions(
-              height: 250.0,
-              enableInfiniteScroll: false,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _current = index;
-                });
-              }),
-          items: imgList.map<Widget>((item) {
-            // return Builder(builder: (BuildContext context) {
-            return Container(
-              child: Image(
-                image: NetworkImage(item),
-              ),
-              // child: Image.network(
-              //   item,
-              //   fit: BoxFit.cover,
-              //   width: 1000,
-              // ),
-            );
-            // });
-          }).toList(),
-          // items: imageSliders,
-          // items: [1, 2, 3, 4, 5].map((i) {
-          //   return Builder(
-          //     builder: (BuildContext context) {
-          //       return Container(
-          //           width: MediaQuery.of(context).size.width,
-          //           margin: EdgeInsets.symmetric(horizontal: 3.0),
-          //           decoration: BoxDecoration(color: Colors.amber),
-          //           child: Center(
-          //             child: Text(
-          //               'text $i',
-          //               style: TextStyle(fontSize: 16.0),
-          //             ),
-          //           ));
-          //     },
-          //   );
-          // }).toList(),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: imgList.map<Widget>((url) {
-            int index = imgList.indexOf(url);
-            return Container(
-              width: 8.0,
-              height: 8.0,
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _current == index
-                    ? Colors.black.withOpacity(0.87)
-                    : Colors.black.withOpacity(0.38),
-              ),
-            );
-          }).toList(),
-        ),
-      ],
     );
   }
 }
@@ -237,7 +116,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                     _current = index;
                   });
                 }),
-            items: imgListst.map<Widget>((item) {
+            items: imgList.map<Widget>((item) {
               // return Builder(builder: (BuildContext context) {
               return Container(
                 child: Image(
@@ -249,8 +128,8 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: imgListst.map<Widget>((url) {
-              int index = imgListst.indexOf(url);
+            children: imgList.map<Widget>((url) {
+              int index = imgList.indexOf(url);
               return Container(
                 width: 8.0,
                 height: 8.0,
