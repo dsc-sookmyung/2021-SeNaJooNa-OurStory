@@ -3,10 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Group extends ChangeNotifier {
   Map<String, dynamic> _group_info = {};
-
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  void setGroup(groupId) {}
+  void setGroup(group) {
+    this._group_info = group;
+  }
 
   void addGroup({String name, List<String> users, String email}) {
     users.insert(0, email);
@@ -31,10 +32,18 @@ class Group extends ChangeNotifier {
     });
   }
 
-  Future<void> renameGroup({dynamic id, String name}) {
+  Future<void> renameGroup({String name}) {
     notifyListeners();
-    return _firestore.collection('Room').doc(id).update({
+    return _firestore.collection('Room').doc(this._group_info["id"]).update({
       'name': name,
+    });
+  }
+
+  Future<void> addUser({dynamic users, String email}) {
+    notifyListeners();
+    users.insert(0, email);
+    return _firestore.collection('Room').doc(this._group_info["id"]).update({
+      'users': users
     });
   }
 
@@ -52,6 +61,7 @@ class Group extends ChangeNotifier {
                   _groups.add({
                     "id": doc.id,
                     "name": doc["name"],
+                    "emails": doc["users"],
                     "users": getUsers(doc["users"])
                   });
                 }
@@ -76,5 +86,15 @@ class Group extends ChangeNotifier {
 
   Map<String, dynamic> getGroupInfo() {
     return this._group_info;
+  }
+  Future<List<dynamic>> getEmails() async{
+    List<dynamic> emails = [];
+    await this
+      ._firestore
+      .collection('Room')
+      .doc(this._group_info["id"])
+      .get()
+      .then((value) => {emails = value["users"]});
+    return emails;
   }
 }
