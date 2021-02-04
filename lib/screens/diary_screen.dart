@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:together/Constants.dart';
 import 'package:together/screens/view_diary_screen.dart';
+import 'package:together/screens/create_diary_screen.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -37,6 +38,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
           foregroundColor: Colors.black,
           onPressed: () {
             // Respond to button press
+            // 아래 두줄 테스트용으로 임시 방편으로 넣은 것
+            Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CreateDiaryScreen()));
           },
           child: Icon(Icons.add),
         ),
