@@ -9,23 +9,30 @@ class AddGroupScreen extends StatefulWidget {
   _AddGroupScreenState createState() => _AddGroupScreenState();
 }
 
-List<String> userList = [];
-
 class _AddGroupScreenState extends State<AddGroupScreen> {
   String groupName;
   String user;
+  List<String> userList = [];
   TextEditingController _nameController = TextEditingController();
   TextEditingController _userController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
         backgroundColor: kPrimaryColor,
-        title: Text('모임 만들기'),
+        title: Text(
+          '모임 만들기',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
         actions: [
           FlatButton(
-            textColor: Colors.white,
             onPressed: () {
+              if (groupName == null) return;
               //ff
               Provider.of<Group>(context, listen: false).addGroup(
                   name: groupName,
@@ -56,27 +63,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                 onChanged: (value) {
                   groupName = value;
                 },
-                decoration: InputDecoration(
-                  hintText: '모임 이름',
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 20.0,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20.0),
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.deepPurpleAccent[100], width: 2.0),
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                ),
+                decoration: kTextFieldDecoration.copyWith(hintText: '모임 이름'),
               ),
               SizedBox(
                 height: 48.0,
@@ -86,30 +73,13 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                   user = value;
                 },
                 controller: _userController,
-                decoration: InputDecoration(
-                  hintText: '모임원 추가',
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 20.0,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20.0),
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.deepPurpleAccent[100], width: 2.0),
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                ),
+                decoration: kTextFieldDecoration.copyWith(hintText: '모임원 추가'),
               ),
               FlatButton(
                 onPressed: () {
+                  if (user == null) {
+                    return;
+                  }
                   if (!userList.contains(user) &&
                       user !=
                           Provider.of<User>(context, listen: false)
@@ -126,7 +96,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
               Expanded(
                 child: SizedBox(
                   height: 200.0,
-                  child: DeleteChips(),
+                  child: userListWidget(),
                 ),
               )
             ],
@@ -135,45 +105,45 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
       ),
     );
   }
-}
 
-class DeleteChips extends StatefulWidget {
-  @override
-  UsersList createState() => UsersList();
-}
-
-class UsersList extends State<DeleteChips> {
-  @override
-  Widget build(BuildContext context) {
+  Widget userListWidget() {
     return ListView.builder(
       itemBuilder: (context, index) {
-        return buildChip(
-          index: index,
-          userTitle: userList[index],
-        );
+        return userChip(
+            userTitle: userList[index],
+            onDeleted: () {
+              setState(() {
+                userList.remove(userList[index]);
+              });
+            });
       },
       itemCount: userList.length,
     );
   }
+}
 
-  Widget buildChip({int index, String userTitle}) {
+class userChip extends StatelessWidget {
+  String userTitle;
+  Function onDeleted;
+  userChip({userTitle, onDeleted}) {
+    this.userTitle = userTitle;
+    this.onDeleted = onDeleted;
+  }
+  Widget build(BuildContext context) {
     return Chip(
-        label: Text(
-          userTitle,
-          style: TextStyle(color: Colors.black),
+      label: Text(
+        userTitle,
+        style: TextStyle(color: Colors.white),
+      ),
+      avatar: CircleAvatar(
+        child: Text(
+          userTitle[0].toUpperCase(),
         ),
-        avatar: CircleAvatar(
-          child: Text(
-            userTitle[0].toUpperCase(),
-          ),
-          backgroundColor: Colors.white,
-        ),
-        padding: EdgeInsets.all(5),
-        backgroundColor: Colors.deepPurpleAccent[100],
-        onDeleted: () {
-          setState(() {
-            userList.remove(userTitle);
-          });
-        });
+        backgroundColor: Colors.white,
+      ),
+      padding: EdgeInsets.all(5),
+      backgroundColor: kPDarkColor,
+      onDeleted: onDeleted,
+    );
   }
 }
