@@ -262,6 +262,7 @@ class GroupCard extends StatelessWidget {
                 ],
               ),
               onTap: () {
+                Provider.of<Group>(context, listen: false).setGroup({"id":this.id});  // delete
                 Navigator.pushNamed(context, DiaryScreen.id,
                     arguments: ArgumentRoom(this.id, this.name));
               },

@@ -37,4 +37,13 @@ class Diary extends ChangeNotifier {
   Map<String, dynamic> getDiaryInfo() {
     return this._diary_info;
   }
+
+  // delete
+  void deleteDiary({dynamic diaryId, dynamic roomId}) {
+    print("[deleteDiary]");
+    print(roomId);
+    print(diaryId);
+    _firestore.collection('Diary').doc(roomId).collection('Contents').doc(diaryId).delete();
+    notifyListeners();
+  }
 }

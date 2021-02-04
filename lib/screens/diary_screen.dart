@@ -67,13 +67,20 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     diary['location'],
                     diary['date'],
                     diary['images'],
-                    argumentRoom)
+                    argumentRoom,
+                    // delete
+                    (value) {
+                      if (value == 1) {
+                        Provider.of<Diary>(context,listen: false).deleteDiary(diaryId:diary['id'], roomId: Provider.of<Group>(context,listen: false).getGroupInfo()["id"]);
+                      }
+                    }
+                  )
               ],
             );
           },
         );
       },
-      future: Provider.of<Diary>(context, listen: false)
+      future: Provider.of<Diary>(context)   // 삭제하면 바로 반영되게 listen:false 지움
           .getDiaryFromRoomId(argumentRoom.roomId),
     );
   }
@@ -89,7 +96,9 @@ class DiaryCard extends StatelessWidget {
   List<dynamic> imagesPath;
   ArgumentRoom argumentRoom;
 
-  DiaryCard(id, title, content, location, date, images, argumentRoom) {
+  Function diarySetting; //delete
+
+  DiaryCard(id, title, content, location, date, images, argumentRoom, diarySetting) {
     this.id = id;
     this.title = title;
     this.content = content;
@@ -99,6 +108,7 @@ class DiaryCard extends StatelessWidget {
     this.imagesPath =
         images.map((imageName) => getImageURLFromImageName(imageName)).toList();
     this.argumentRoom = argumentRoom;
+    this.diarySetting = diarySetting;
   }
 
   @override
@@ -117,9 +127,13 @@ class DiaryCard extends StatelessWidget {
             ListTile(
               trailing: PopupMenuButton(
                 icon: Icon(Icons.more_vert),
+                onSelected: diarySetting,   // delete
                 itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                   const PopupMenuItem(child: Text('수정하기')),
-                  const PopupMenuItem(child: Text('삭제하기')),
+                  const PopupMenuItem(
+                    child: Text('삭제하기'),
+                    value: 1,   // delete
+                  ),
                 ],
               ),
               title: Text(this.title),
