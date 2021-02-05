@@ -24,7 +24,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.asset('assets/splash_logo.jpg'),
+            Image.asset('assets/splash_logo.png'),
             RoundedButton(
               title: 'Google 계정 로그인',
               colour: kPrimaryColor,
