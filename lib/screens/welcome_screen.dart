@@ -3,7 +3,7 @@ import 'package:together/Constants.dart';
 import 'package:together/components/rounded_button.dart';
 import 'package:together/screens/group_screen.dart';
 
-import 'package:provider/provider.dart'; 
+import 'package:provider/provider.dart';
 import '../models/User.dart';
 import '../models/sign_in.dart';
 
@@ -17,21 +17,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: kPrimaryColor,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.asset('assets/welcome_image.jpg'),
+            Image.asset('assets/splash_logo.png'),
             RoundedButton(
               title: 'Google 계정 로그인',
-              colour: kPrimaryColor,
+              colour: kPDarkColor,
               // onPressed: () {
               //   Navigator.pushNamed(context, GroupScreen.id);
               // },
-              onPressed: (){
+              onPressed: () {
                 signInWithGoogle().then((result) {
                   if (result != null) {
                     print("[BEFORE setUser]");
