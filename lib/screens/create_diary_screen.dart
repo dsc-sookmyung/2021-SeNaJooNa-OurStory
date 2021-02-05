@@ -34,9 +34,6 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
-        ),
         backgroundColor: kPrimaryColor,
         title: Text(
           '추억 작성하기',
@@ -66,7 +63,7 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
       body: SingleChildScrollView(
           child: Column(children: <Widget>[
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
+          padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 25.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -90,12 +87,13 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                   ),
                 ),
               ),
-              _image == null
-                  ? Text('no image')
-                  : Image.file(_image, height: 200),
+              _image == null ? Text('') : Image.file(_image, height: 200),
               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 25.0),
+                    ),
                     RaisedButton(
                       child: Text('Gallery'),
                       onPressed: () {
