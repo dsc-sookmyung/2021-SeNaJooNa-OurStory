@@ -51,60 +51,61 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(children: <Widget>[
+          child: Column(children: <Widget>[
         Padding(
-        padding:
-            EdgeInsets.only(top: 60.0, left: 20.0, right: 20.0, bottom: 20.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              TextField(
-                controller: _nameController,
-                onChanged: (value) {
-                  groupName = value;
-                },
-                decoration: kTextFieldDecoration.copyWith(hintText: '모임 이름'),
-              ),
-              SizedBox(
-                height: 48.0,
-              ),
-              TextField(
-                onChanged: (value) {
-                  user = value;
-                },
-                controller: _userController,
-                decoration: kTextFieldDecoration.copyWith(hintText: '모임원 추가'),
-              ),
-              FlatButton(
-                onPressed: () {
-                  if (user == null) {
-                    return;
-                  }
-                  if (!userList.contains(user) &&
-                      user !=
-                          Provider.of<User>(context, listen: false)
-                              .getEmail()) {
-                    setState(() {
-                      userList.insert(0, user);
-                    });
-                  }
-
-                  _userController.clear();
-                },
-                child: Text('ADD'),
-              ),
-              Expanded(
-                child: SizedBox(
-                  height: 200.0,
-                  child: userListWidget(),
+          padding:
+              EdgeInsets.only(top: 60.0, left: 20.0, right: 20.0, bottom: 20.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                TextField(
+                  controller: _nameController,
+                  onChanged: (value) {
+                    groupName = value;
+                  },
+                  decoration: kTextFieldDecoration.copyWith(hintText: '모임 이름'),
                 ),
-              )
-            ],
+                SizedBox(
+                  height: 48.0,
+                ),
+                TextField(
+                  onChanged: (value) {
+                    user = value;
+                  },
+                  controller: _userController,
+                  decoration: kTextFieldDecoration.copyWith(hintText: '모임원 추가'),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    if (user == null) {
+                      return;
+                    }
+                    if (!userList.contains(user) &&
+                        user !=
+                            Provider.of<User>(context, listen: false)
+                                .getEmail()) {
+                      setState(() {
+                        userList.insert(0, user);
+                      });
+                    }
+
+                    _userController.clear();
+                  },
+                  child: Text('ADD'),
+                ),
+                Expanded(
+                  child: SizedBox(
+                    height: 200.0,
+                    child: userListWidget(),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
-      ),
+      ])),
     );
   }
 
