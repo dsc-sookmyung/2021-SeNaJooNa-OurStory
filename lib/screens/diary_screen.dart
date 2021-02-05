@@ -74,7 +74,12 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     argumentRoom,
                     // delete
                     (value) {
-                  if (value == 1) {
+                  if (value == 0) {
+                    updateDiary(
+                        Provider.of<Group>(context, listen: false)
+                            .getGroupInfo()['id'],
+                        diary);
+                  } else if (value == 1) {
                     Provider.of<Diary>(context, listen: false).deleteDiary(
                         diaryId: diary['id'],
                         roomId: Provider.of<Group>(context, listen: false)
@@ -88,6 +93,67 @@ class _DiaryScreenState extends State<DiaryScreen> {
       },
       future: Provider.of<Diary>(context) // 삭제하면 바로 반영되게 listen:false 지움
           .getDiaryFromRoomId(argumentRoom.roomId),
+    );
+  }
+
+  Future<Widget> updateDiary(dynamic groupId, diary) {
+    TextEditingController _titleController = TextEditingController();
+    TextEditingController _contentController = TextEditingController();
+    _titleController.text = diary["title"];
+    _contentController.text = diary["content"];
+    String newTitle;
+    String newContent;
+
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("일기 변경"),
+          content: Column(children: [
+            TextField(
+              controller: _titleController,
+              minLines: 1,
+              maxLines: 2,
+              // onChanged: (value) {
+              //   newTitle = value;
+              // },
+            ),
+            TextField(
+              controller: _contentController,
+              minLines: 1,
+              maxLines: 4,
+              // onChanged: (value) {
+              //   newContent = value;
+              // },
+            ),
+          ]),
+          actions: [
+            FlatButton(
+              child: Text("OK"),
+              onPressed: () {
+                Provider.of<Diary>(context, listen: false).updateDiary(
+                  diaryId: diary["id"],
+                  roomId: groupId,
+                  title: _titleController.text,
+                  content: _contentController.text,
+                );
+                print(diary["id"] + " " + groupId);
+                _titleController.clear();
+                _contentController.clear();
+                Navigator.pop(context);
+              },
+            ),
+            FlatButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                _titleController.clear();
+                _contentController.clear();
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -136,7 +202,10 @@ class DiaryCard extends StatelessWidget {
                 icon: Icon(Icons.more_vert),
                 onSelected: diarySetting, // delete
                 itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                  const PopupMenuItem(child: Text('수정하기')),
+                  const PopupMenuItem(
+                    child: Text('수정하기'),
+                    value: 0,
+                  ),
                   const PopupMenuItem(
                     child: Text('삭제하기'),
                     value: 1, // delete
