@@ -40,7 +40,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
             // Respond to button press
             // 아래 두줄 테스트용으로 임시 방편으로 넣은 것
             Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CreateDiaryScreen()));
+                MaterialPageRoute(builder: (context) => CreateDiaryScreen()));
           },
           child: Icon(Icons.add),
         ),
@@ -74,17 +74,19 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     argumentRoom,
                     // delete
                     (value) {
-                      if (value == 1) {
-                        Provider.of<Diary>(context,listen: false).deleteDiary(diaryId:diary['id'], roomId: Provider.of<Group>(context,listen: false).getGroupInfo()["id"]);
-                      }
-                    }
-                  )
+                  if (value == 1) {
+                    Provider.of<Diary>(context, listen: false).deleteDiary(
+                        diaryId: diary['id'],
+                        roomId: Provider.of<Group>(context, listen: false)
+                            .getGroupInfo()["id"]);
+                  }
+                })
               ],
             );
           },
         );
       },
-      future: Provider.of<Diary>(context)   // 삭제하면 바로 반영되게 listen:false 지움
+      future: Provider.of<Diary>(context) // 삭제하면 바로 반영되게 listen:false 지움
           .getDiaryFromRoomId(argumentRoom.roomId),
     );
   }
@@ -102,7 +104,8 @@ class DiaryCard extends StatelessWidget {
 
   Function diarySetting; //delete
 
-  DiaryCard(id, title, content, location, date, images, argumentRoom, diarySetting) {
+  DiaryCard(
+      id, title, content, location, date, images, argumentRoom, diarySetting) {
     this.id = id;
     this.title = title;
     this.content = content;
@@ -131,12 +134,12 @@ class DiaryCard extends StatelessWidget {
             ListTile(
               trailing: PopupMenuButton(
                 icon: Icon(Icons.more_vert),
-                onSelected: diarySetting,   // delete
+                onSelected: diarySetting, // delete
                 itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                   const PopupMenuItem(child: Text('수정하기')),
                   const PopupMenuItem(
                     child: Text('삭제하기'),
-                    value: 1,   // delete
+                    value: 1, // delete
                   ),
                 ],
               ),

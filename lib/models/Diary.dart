@@ -5,9 +5,21 @@ class Diary extends ChangeNotifier {
   Map<String, dynamic> _diary_info = {};
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  void setDiary(groupId) {}
-
-  void addDiary() {}
+  void addDiary(
+      {String groupId,
+      String title,
+      String content,
+      String location,
+      List<String> images}) {
+    _firestore.collection('Diary').doc(groupId).collection('Contents').add({
+      'title': title,
+      'content': content,
+      'location': location,
+      'date': Timestamp.now(),
+      'images': images,
+    });
+    notifyListeners();
+  }
 
   Future<List<Map<String, dynamic>>> getDiaryFromRoomId(roomId) async {
     List<Map<String, dynamic>> _diaries = List<Map<String, dynamic>>();
@@ -43,7 +55,12 @@ class Diary extends ChangeNotifier {
     print("[deleteDiary]");
     print(roomId);
     print(diaryId);
-    _firestore.collection('Diary').doc(roomId).collection('Contents').doc(diaryId).delete();
+    _firestore
+        .collection('Diary')
+        .doc(roomId)
+        .collection('Contents')
+        .doc(diaryId)
+        .delete();
     notifyListeners();
   }
 }
