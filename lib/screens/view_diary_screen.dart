@@ -119,6 +119,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
             items: imgList.map<Widget>((item) {
               // return Builder(builder: (BuildContext context) {
               return Container(
+                margin: EdgeInsets.symmetric(horizontal: 3.0),
                 child: Image(
                   image: NetworkImage(item),
                 ),
