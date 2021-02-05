@@ -50,7 +50,9 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
           ),
         ],
       ),
-      body: Padding(
+      body: SingleChildScrollView(
+        child: Column(children: <Widget>[
+        Padding(
         padding:
             EdgeInsets.only(top: 60.0, left: 20.0, right: 20.0, bottom: 20.0),
         child: Center(
