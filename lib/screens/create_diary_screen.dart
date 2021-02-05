@@ -60,72 +60,77 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            TextField(
-              onChanged: (value) {
-                diaryTitle = value;
-              },
-              decoration: InputDecoration(
-                hintText: '제목',
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 20.0,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(20.0),
+      body: SingleChildScrollView(
+          child: Column(children: <Widget>[
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              TextField(
+                minLines: 1,
+                maxLines: 2,
+                onChanged: (value) {
+                  diaryTitle = value;
+                },
+                decoration: InputDecoration(
+                  hintText: '제목',
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 20.0,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20.0),
+                    ),
                   ),
                 ),
               ),
-            ),
-            _image == null ? Text('no image') : Image.file(_image),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-              RaisedButton(
-                child: Text('Gallery'),
-                onPressed: () {
-                  uploadFile(
-                      ImageSource.gallery,
-                      Provider.of<Group>(context, listen: false)
-                          .getGroupInfo()['id']);
+              _image == null
+                  ? Text('no image')
+                  : Image.file(_image, height: 200),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    RaisedButton(
+                      child: Text('Gallery'),
+                      onPressed: () {
+                        uploadFile(
+                            ImageSource.gallery,
+                            Provider.of<Group>(context, listen: false)
+                                .getGroupInfo()['id']);
+                      },
+                    ),
+                    RaisedButton(
+                      child: Text('Camera'),
+                      onPressed: () {
+                        uploadFile(
+                            ImageSource.camera,
+                            Provider.of<Group>(context, listen: false)
+                                .getGroupInfo()['id']);
+                      },
+                    )
+                  ]),
+              TextField(
+                minLines: 1,
+                maxLines: 4,
+                onChanged: (value) {
+                  diaryContent = value;
                 },
-              ),
-              RaisedButton(
-                child: Text('Camera'),
-                onPressed: () {
-                  uploadFile(
-                      ImageSource.camera,
-                      Provider.of<Group>(context, listen: false)
-                          .getGroupInfo()['id']);
-                },
-              )
-            ]),
-            TextField(
-              onChanged: (value) {
-                diaryContent = value;
-              },
-              decoration: InputDecoration(
-                hintText: '내용 작성',
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: 20.0,
-                  horizontal: 20.0,
+                decoration: InputDecoration(
+                  hintText: '내용 작성',
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 20.0,
+                    horizontal: 20.0,
+                  ),
                 ),
+                controller: _diaryController,
               ),
-              controller: _diaryController,
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: kPLightColor,
-        foregroundColor: Colors.black,
-        onPressed: _getImage,
-        child: Icon(Icons.add_a_photo),
-      ),
+      ])),
     );
   }
 
