@@ -56,7 +56,13 @@ class _ViewDiaryScreenState extends State<ViewDiaryScreen> {
     imgList = argumentRoomAndDiary.argumentDiary.imagesPath;
     return Scaffold(
       appBar: AppBar(
-        title: Text(argumentRoomAndDiary.argumentDiary.title),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ), //
+        title: Text(
+          argumentRoomAndDiary.argumentDiary.title,
+          style: TextStyle(color: Colors.black),
+        ),
         backgroundColor: kPrimaryColor,
         actions: [
           PopupMenuButton(
@@ -71,19 +77,45 @@ class _ViewDiaryScreenState extends State<ViewDiaryScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            // margin: EdgeInsets.all(4),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(argumentRoomAndDiary.argumentDiary.location),
-                Text(
-                  DateFormat.yMd()
-                      .add_jm()
-                      .format(argumentRoomAndDiary.argumentDiary.date.toDate()),
-                  style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                Row(
+                  children: [
+                    Icon(Icons.location_on),
+                    Text(argumentRoomAndDiary.argumentDiary.location),
+                  ],
+                ),
+                SizedBox(height: 8.0),
+                Divider(
+                  height: 1,
+                  thickness: 1,
+                ),
+                SizedBox(height: 8.0),
+                Row(
+                  children: [
+                    Icon(Icons.today),
+                    Text(
+                      DateFormat.yMd().add_jm().format(
+                          argumentRoomAndDiary.argumentDiary.date.toDate()),
+                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8.0),
+                Divider(
+                  height: 1,
+                  thickness: 1,
                 ),
                 CarouselWithIndicator(),
+                Divider(
+                  height: 1,
+                  thickness: 1,
+                ),
+                SizedBox(height: 8.0),
                 Text(argumentRoomAndDiary.argumentDiary.content),
               ],
             ),

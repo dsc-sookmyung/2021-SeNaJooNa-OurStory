@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:together/Constants.dart';
@@ -30,7 +31,13 @@ class _DiaryScreenState extends State<DiaryScreen> {
     final ArgumentRoom argumentRoom = ModalRoute.of(context).settings.arguments;
     return Scaffold(
         appBar: AppBar(
-          title: Text(argumentRoom.roomName),
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+          title: Text(
+            argumentRoom.roomName,
+            style: TextStyle(color: Colors.black),
+          ),
           backgroundColor: kPrimaryColor,
         ),
         floatingActionButton: FloatingActionButton(
@@ -42,7 +49,10 @@ class _DiaryScreenState extends State<DiaryScreen> {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => CreateDiaryScreen()));
           },
-          child: Icon(Icons.add),
+          child: Icon(
+            Icons.add,
+            color: Colors.black,
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -109,24 +119,28 @@ class _DiaryScreenState extends State<DiaryScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: new Text("일기 변경"),
-          content: Column(children: [
-            TextField(
-              controller: _titleController,
-              minLines: 1,
-              maxLines: 2,
-              // onChanged: (value) {
-              //   newTitle = value;
-              // },
-            ),
-            TextField(
-              controller: _contentController,
-              minLines: 1,
-              maxLines: 4,
-              // onChanged: (value) {
-              //   newContent = value;
-              // },
-            ),
-          ]),
+          content: Container(
+            width: 320.0,
+            height: 230.0,
+            child: Column(children: [
+              TextField(
+                controller: _titleController,
+                minLines: 1,
+                maxLines: 2,
+                // onChanged: (value) {
+                //   newTitle = value;
+                // },
+              ),
+              TextField(
+                controller: _contentController,
+                minLines: 1,
+                maxLines: 4,
+                // onChanged: (value) {
+                //   newContent = value;
+                // },
+              ),
+            ]),
+          ),
           actions: [
             FlatButton(
               child: Text("OK"),
@@ -186,55 +200,61 @@ class DiaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(context, ViewDiaryScreen.id,
-              // arguments: Argument(
-              //     this.argument.roomId, this.argument.roomName, this.id));
-              arguments: ArgumentRoomAndDiary(argumentRoom, this));
-        },
-        child: Column(
-          children: [
-            ListTile(
-              trailing: PopupMenuButton(
-                icon: Icon(Icons.more_vert),
-                onSelected: diarySetting, // delete
-                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                  const PopupMenuItem(
-                    child: Text('수정하기'),
-                    value: 0,
-                  ),
-                  const PopupMenuItem(
-                    child: Text('삭제하기'),
-                    value: 1, // delete
-                  ),
-                ],
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: 4.0,
+      ),
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, ViewDiaryScreen.id,
+                // arguments: Argument(
+                //     this.argument.roomId, this.argument.roomName, this.id));
+                arguments: ArgumentRoomAndDiary(argumentRoom, this));
+          },
+          child: Column(
+            children: [
+              ListTile(
+                trailing: PopupMenuButton(
+                  icon: Icon(Icons.more_vert),
+                  onSelected: diarySetting, // delete
+                  itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                    const PopupMenuItem(
+                      child: Text('수정하기'),
+                      value: 0,
+                    ),
+                    const PopupMenuItem(
+                      child: Text('삭제하기'),
+                      value: 1, // delete
+                    ),
+                  ],
+                ),
+                title: Text(this.title),
+                subtitle: Text(
+                  this.location,
+                  style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                ),
               ),
-              title: Text(this.title),
-              subtitle: Text(
-                this.location,
-                style: TextStyle(color: Colors.black.withOpacity(0.6)),
+              Image(
+                image: NetworkImage(this.imagesPath[0]),
               ),
-            ),
-            Image(
-              image: NetworkImage(this.imagesPath[0]),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(DateFormat.yMd().add_jm().format(this.date.toDate())),
-                  Text(
-                    this.content,
-                    style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                  ),
-                ],
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(DateFormat.yMd().add_jm().format(this.date.toDate())),
+                    Text(
+                      this.content,
+                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -60,21 +60,17 @@ class _GroupScreenState extends State<GroupScreen> {
             color: Colors.black,
           ),
         ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.search,
-              color: Colors.black,
-            ),
-          ),
-        ],
       ),
-      drawer: Navigation_Drawer(userName: Provider.of<User>(context).getName()),
+      drawer:
+          Navigation_Drawer(userEmail: Provider.of<User>(context).getEmail()),
       body: Column(
         children: <Widget>[
           Expanded(
             child: projectWidget(),
           ),
+          SizedBox(
+            width: 16.0,
+          )
         ],
       ),
     );
@@ -93,6 +89,7 @@ class _GroupScreenState extends State<GroupScreen> {
           return Container();
         }
         return ListView.builder(
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
           itemCount: groupSnap.data.length,
           itemBuilder: (context, index) {
             Map<String, dynamic> group = groupSnap.data[index];
@@ -113,7 +110,8 @@ class _GroupScreenState extends State<GroupScreen> {
                       );
                     } else {
                       print(group);
-                      Provider.of<Group>(context, listen: false).setGroup(group);
+                      Provider.of<Group>(context, listen: false)
+                          .setGroup(group);
 
                       Navigator.push(
                         context,
@@ -136,10 +134,10 @@ class _GroupScreenState extends State<GroupScreen> {
 }
 
 class Navigation_Drawer extends StatelessWidget {
-  String userName;
+  String userEmail;
 
-  Navigation_Drawer({@required userName}) {
-    this.userName = userName;
+  Navigation_Drawer({@required userEmail}) {
+    this.userEmail = userEmail;
   }
 
   @override
@@ -151,7 +149,7 @@ class Navigation_Drawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             child: Text(
-              userName,
+              userEmail,
               style: TextStyle(
                 fontSize: 24,
               ),
@@ -184,20 +182,6 @@ class Navigation_Drawer extends StatelessWidget {
                       builder: (BuildContext context) => WelcomeScreen()),
                   (route) => false);
             },
-          ),
-          Divider(
-            height: 1,
-            thickness: 1,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              'Label',
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.bookmark),
-            title: Text('Item A'),
           ),
         ],
       ),
@@ -232,7 +216,12 @@ class GroupCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.only(
+        top: 8.0,
+        left: 8.0,
+        right: 8.0,
+        bottom: 8.0,
+      ),
       child: Card(
         child: Column(
           children: [
@@ -256,11 +245,11 @@ class GroupCard extends StatelessWidget {
                 ],
               ),
               onTap: () {
-                Provider.of<Group>(context, listen: false).setGroup({"id":this.id});  // delete
+                Provider.of<Group>(context, listen: false)
+                    .setGroup({"id": this.id}); // delete
                 Navigator.pushNamed(context, DiaryScreen.id,
                     arguments: ArgumentRoom(this.id, this.name));
               },
-              leading: Icon(Icons.photo),
               title: Text(this.name),
               subtitle: this.users,
             ),

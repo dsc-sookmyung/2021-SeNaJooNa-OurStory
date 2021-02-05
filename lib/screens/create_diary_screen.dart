@@ -34,6 +34,9 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
         backgroundColor: kPrimaryColor,
         title: Text(
           '추억 작성하기',
