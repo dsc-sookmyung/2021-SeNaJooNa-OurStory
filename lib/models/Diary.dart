@@ -63,4 +63,18 @@ class Diary extends ChangeNotifier {
         .delete();
     notifyListeners();
   }
+
+  Future<void> updateDiary(
+      {dynamic diaryId, dynamic roomId, String title, String content}) {
+    notifyListeners();
+    return _firestore
+        .collection('Diary')
+        .doc(roomId)
+        .collection('Contents')
+        .doc(diaryId)
+        .update({
+      'title': title,
+      'content': content,
+    });
+  }
 }
