@@ -28,6 +28,7 @@ class Diary extends ChangeNotifier {
         .collection('Diary')
         .doc(roomId)
         .collection('Contents')
+        .orderBy('date', descending: true)
         .get()
         .then((QuerySnapshot querySnapshot) => {
               querySnapshot.docs.forEach((doc) async {
