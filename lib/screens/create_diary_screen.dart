@@ -35,6 +35,9 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
         title: Text(
           '추억 작성하기',
           style: TextStyle(
@@ -86,6 +89,21 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                     ),
                   ),
                 ),
+              ),
+              TextField(
+                minLines: 1,
+                maxLines: 1,
+                onChanged: (value) {
+                  diaryLocation = value;
+                },
+                decoration: InputDecoration(
+                  hintText: '장소',
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 15.0,
+                    horizontal: 20.0,
+                  ),
+                ),
+                controller: _diaryController,
               ),
               _image == null ? Text('') : Image.file(_image, height: 200),
               Row(
