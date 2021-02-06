@@ -100,14 +100,10 @@ class _GroupScreenState extends State<GroupScreen> {
                   group["name"],
                   group["users"],
                   (value) {
-                    if (value == 1) {
-                      Provider.of<Group>(context, listen: false)
-                          .removeGroup(id: group["id"]);
-                    } else if (value == 0) {
-                      Provider.of<Group>(context, listen: false).leaveGroup(
-                        groupID: group["id"],
-                        email: email,
-                      );
+                    if (value == 0) {
+                      leaveGroupDialog(group['id'], email);
+                    } else if (value == 1) {
+                      removeGroupDialog(group["id"]);
                     } else {
                       print(group);
                       Provider.of<Group>(context, listen: false)
@@ -130,6 +126,61 @@ class _GroupScreenState extends State<GroupScreen> {
       },
       future: Provider.of<Group>(context).getGroupsList(email),
     );
+  }
+
+  Future<Widget> removeGroupDialog(dynamic groupId) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("모임 삭제"),
+            content: Text("정말 삭제하시겠습니까?"),
+            actions: [
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Provider.of<Group>(context, listen: false)
+                      .removeGroup(id: groupId);
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                child: Text("Cancel"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  Future<Widget> leaveGroupDialog(dynamic groupId, dynamic email) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("모임 탈퇴"),
+            content: Text("정말 탈퇴하시겠습니까?"),
+            actions: [
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Provider.of<Group>(context, listen: false).leaveGroup(
+                    groupID: groupId,
+                    email: email,
+                  );
+                },
+              ),
+              FlatButton(
+                child: Text("Cancel"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
   }
 }
 
