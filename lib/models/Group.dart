@@ -41,6 +41,9 @@ class Group extends ChangeNotifier {
 
   Future<void> addUser({dynamic users, String email, String name}) {
     notifyListeners();
+    print("[CHANGE ROOM]");
+    print(name);
+    print(users);
     users.insert(0, email);
     return _firestore.collection('Room').doc(this._group_info["id"]).update({
       'name': name,
