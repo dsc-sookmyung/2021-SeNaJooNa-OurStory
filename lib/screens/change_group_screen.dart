@@ -15,6 +15,7 @@ class _ChangeGroupScreenState extends State<ChangeGroupScreen> {
   List<dynamic> userList = [];
   TextEditingController _nameController = TextEditingController();
   TextEditingController _userController = TextEditingController();
+  
   bool fromList = true;
 
   @override
@@ -26,7 +27,6 @@ class _ChangeGroupScreenState extends State<ChangeGroupScreen> {
     this.userList.remove(Provider.of<User>(context).getEmail());
     groupName = Provider.of<Group>(context, listen: false).getGroupInfo()["name"];
     print("Change group");
-
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -46,7 +46,7 @@ class _ChangeGroupScreenState extends State<ChangeGroupScreen> {
         actions: [
           FlatButton(
             onPressed: () {
-              if (groupName == null) return;
+              if (_nameController.text == '') _nameController.text = groupName;
               //ff
               Provider.of<Group>(context, listen: false).addUser(name: _nameController.text, users: userList, email:Provider.of<User>(context,listen: false).getEmail());
               // Provider.of<Group>(context, listen: false).renameGroup(name: groupName);
