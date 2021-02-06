@@ -22,6 +22,7 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
   String diaryLocation = '';
   List<String> diaryImages = [];
   TextEditingController _diaryController = TextEditingController();
+  TextEditingController _locController = TextEditingController();
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
   @override
@@ -103,7 +104,7 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                     horizontal: 20.0,
                   ),
                 ),
-                controller: _diaryController,
+                controller: _locController,
               ),
               _image == null ? Text('') : Image.file(_image, height: 200),
               Row(
