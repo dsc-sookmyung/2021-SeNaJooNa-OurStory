@@ -48,8 +48,8 @@ class _ChangeGroupScreenState extends State<ChangeGroupScreen> {
             onPressed: () {
               if (groupName == null) return;
               //ff
-              Provider.of<Group>(context, listen: false).addUser(users: userList, email:Provider.of<User>(context,listen: false).getEmail());
-              Provider.of<Group>(context, listen: false).renameGroup(name: groupName);
+              Provider.of<Group>(context, listen: false).addUser(name: groupName, users: userList, email:Provider.of<User>(context,listen: false).getEmail());
+              // Provider.of<Group>(context, listen: false).renameGroup(name: groupName);
               // .addGroup(name: groupName, users: null);
 
               _nameController.clear();

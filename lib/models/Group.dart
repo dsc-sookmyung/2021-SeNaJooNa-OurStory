@@ -32,17 +32,18 @@ class Group extends ChangeNotifier {
     });
   }
 
-  Future<void> renameGroup({String name}) {
-    notifyListeners();
-    return _firestore.collection('Room').doc(this._group_info["id"]).update({
-      'name': name,
-    });
-  }
+  // Future<void> renameGroup({String name}) {
+  //   notifyListeners();
+  //   return _firestore.collection('Room').doc(this._group_info["id"]).update({
+  //     'name': name,
+  //   });
+  // }
 
-  Future<void> addUser({dynamic users, String email}) {
+  Future<void> addUser({dynamic users, String email, String name}) {
     notifyListeners();
     users.insert(0, email);
     return _firestore.collection('Room').doc(this._group_info["id"]).update({
+      'name': name,
       'users': users
     });
   }

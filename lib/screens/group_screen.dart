@@ -170,6 +170,7 @@ class _GroupScreenState extends State<GroupScreen> {
                     groupID: groupId,
                     email: email,
                   );
+                  Navigator.pop(context);
                 },
               ),
               FlatButton(
