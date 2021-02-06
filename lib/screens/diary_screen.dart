@@ -90,10 +90,15 @@ class _DiaryScreenState extends State<DiaryScreen> {
                             .getGroupInfo()['id'],
                         diary);
                   } else if (value == 1) {
-                    Provider.of<Diary>(context, listen: false).deleteDiary(
-                        diaryId: diary['id'],
-                        roomId: Provider.of<Group>(context, listen: false)
-                            .getGroupInfo()["id"]);
+                    removeDiary(
+                      Provider.of<Group>(context, listen: false)
+                          .getGroupInfo()['id'],
+                      diary['id'],
+                    );
+                    // Provider.of<Diary>(context, listen: false).deleteDiary(
+                    //     diaryId: diary['id'],
+                    //     roomId: Provider.of<Group>(context, listen: false)
+                    //         .getGroupInfo()["id"]);
                   }
                 })
               ],
@@ -104,6 +109,35 @@ class _DiaryScreenState extends State<DiaryScreen> {
       future: Provider.of<Diary>(context) // 삭제하면 바로 반영되게 listen:false 지움
           .getDiaryFromRoomId(argumentRoom.roomId),
     );
+  }
+
+  Future<Widget> removeDiary(dynamic groupId, dynamic diaryId) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("일기 삭제"),
+            content: Text("정말 삭제하시겠습니까?"),
+            actions: [
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Provider.of<Diary>(context, listen: false).deleteDiary(
+                    diaryId: diaryId,
+                    roomId: groupId,
+                  );
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                child: Text("Cancel"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
   }
 
   Future<Widget> updateDiary(dynamic groupId, diary) {
